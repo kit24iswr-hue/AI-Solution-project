@@ -1,0 +1,37 @@
+{% extends "website/base.html" %}
+
+{% block title %}Events | {{ site_settings.brand_name }}{% endblock %}
+
+{% block content %}
+<section class="page-title premium-title">
+  <span class="eyebrow">{{ page.eyebrow }}</span>
+  <h1>{{ page.title }}</h1>
+  <p>{{ page.summary }}</p>
+  <div class="event-tabs" aria-label="Event status">
+    <a class="button {% if current_status == 'upcoming' %}primary{% else %}secondary{% endif %}" href="{% url 'website:events_upcoming' %}">
+      <i data-lucide="calendar-days"></i>Upcoming events ({{ upcoming_count }})
+    </a>
+    <a class="button {% if current_status == 'past' %}primary{% else %}secondary{% endif %}" href="{% url 'website:events_past' %}">
+      <i data-lucide="history"></i>Past events ({{ past_count }})
+    </a>
+  </div>
+</section>
+
+<section class="section event-card-grid">
+  {% for event in events %}
+    <article class="event-card premium-card">
+      {% if event.image %}<img src="{{ event.image.url }}" alt="{{ event.title }}">{% endif %}
+      <div>
+        <span class="event-date">{{ event.event_date|date:"M Y" }}</span>
+        <h2>{{ event.title }}</h2>
+        <p>{{ event.summary }}</p>
+        <div class="event-meta">
+          <span><i data-lucide="map-pin"></i>{{ event.location }}</span>
+          <span><i data-lucide="calendar"></i>{{ event.event_date|date:"F j, Y" }}</span>
+        </div>
+        <a class="inline-link" href="{% url 'website:event_detail' event.slug %}">View event <i data-lucide="arrow-right"></i></a>
+      </div>
+    </article>
+  {% endfor %}
+</section>
+{% endblock %}

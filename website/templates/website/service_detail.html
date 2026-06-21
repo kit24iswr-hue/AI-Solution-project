@@ -1,0 +1,56 @@
+{% extends "website/base.html" %}
+
+{% block title %}{{ service.title }} | {{ site_settings.brand_name }}{% endblock %}
+
+{% block content %}
+<section class="detail-hero">
+  <div class="detail-copy">
+    <a class="back-link" href="{% url 'website:services' %}"><i data-lucide="arrow-left"></i>Services</a>
+    <span class="eyebrow">{{ service.metric }} {{ service.metric_label }}</span>
+    <h1>{{ service.title }}</h1>
+    <p>{{ service.subtitle }}</p>
+    <div class="hero-actions">
+      <a class="button primary" href="{% url 'website:contact' %}"><i data-lucide="calendar-check"></i>Schedule demo</a>
+      <a class="button secondary" href="{% url 'website:portfolio' %}"><i data-lucide="briefcase-business"></i>See work</a>
+    </div>
+  </div>
+  {% if service.image %}<img src="{{ service.image.url }}" alt="{{ service.title }}">{% endif %}
+</section>
+
+<section class="section detail-layout">
+  <div class="detail-main">
+    {% for section in service.sections.all %}
+      <article class="detail-block">
+        <h2>{{ section.heading }}</h2>
+        <p>{{ section.body }}</p>
+      </article>
+    {% endfor %}
+  </div>
+  <aside class="detail-aside">
+    <span class="eyebrow">Included</span>
+    <h2>Delivery package</h2>
+    <ul class="check-list">
+      {% for deliverable in service.deliverables.all %}
+        <li><i data-lucide="check"></i>{{ deliverable.text }}</li>
+      {% endfor %}
+    </ul>
+  </aside>
+</section>
+
+<section class="section related-band">
+  <div class="section-heading compact">
+    <span class="eyebrow">Explore more</span>
+    <h2>Related services</h2>
+  </div>
+  <div class="service-grid">
+    {% for related in related_services %}
+      <article class="service-card">
+        <i data-lucide="{{ related.icon }}"></i>
+        <h3>{{ related.title }}</h3>
+        <p>{{ related.summary }}</p>
+        <a href="{% url 'website:service_detail' related.slug %}">View details</a>
+      </article>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,260 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static jazzmin log %}
+{% get_jazzmin_ui_tweaks as jazzmin_ui %}
+
+{% block bodyclass %}{{ block.super }} dashboard ai-analytics-dashboard{% endblock %}
+
+{% block content_title %}{% trans "Analytics Dashboard" %}{% endblock %}
+
+{% block breadcrumbs %}
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'admin:index' %}">{% trans "Home" %}</a></li>
+    <li class="breadcrumb-item">{% trans "Analytics Dashboard" %}</li>
+  </ol>
+{% endblock %}
+
+{% block content %}
+  {% get_side_menu using="app_list" as dashboard_list %}
+
+  <div class="col-12 ai-dashboard">
+    <section class="ai-dashboard-hero">
+      <div>
+        <span class="ai-eyebrow">Management intelligence</span>
+        <h2>Business performance overview</h2>
+        <p>Monitor inquiry demand, content readiness, customer confidence, and upcoming delivery activity from one operating view.</p>
+      </div>
+      <div class="ai-hero-meta">
+        <span>Updated</span>
+        <strong>{{ admin_dashboard.generated_at|date:"M d, Y H:i" }}</strong>
+      </div>
+    </section>
+
+    <section class="ai-kpi-grid" aria-label="Key performance indicators">
+      {% for card in admin_dashboard.kpi_cards %}
+        <article class="ai-kpi ai-kpi-{{ card.tone }}">
+          <div>
+            <span>{{ card.label }}</span>
+            <strong>{{ card.value }}</strong>
+            <small>{{ card.caption }}</small>
+          </div>
+          <i class="fas {{ card.icon }}" aria-hidden="true"></i>
+        </article>
+      {% empty %}
+        <article class="ai-card ai-empty-card">Run migrations to load dashboard analytics.</article>
+      {% endfor %}
+    </section>
+
+    <section class="ai-dashboard-grid">
+      <article class="card ai-card ai-card-wide">
+        <div class="ai-card-header">
+          <div>
+            <span class="ai-eyebrow">Lead generation</span>
+            <h3>Inquiry trend</h3>
+          </div>
+          <span class="ai-badge">Last 6 months</span>
+        </div>
+        <div class="ai-bar-chart" aria-label="Monthly customer inquiry trend">
+          {% for point in admin_dashboard.inquiry_trend %}
+            <div class="ai-bar-column">
+              <div class="ai-bar-track">
+                <span class="ai-bar ai-bar-total" style="height: {{ point.total_percent }}%"></span>
+                <span class="ai-bar ai-bar-demo" style="height: {{ point.demo_percent }}%"></span>
+              </div>
+              <strong>{{ point.total }}</strong>
+              <span>{{ point.label }}</span>
+            </div>
+          {% endfor %}
+        </div>
+        <div class="ai-chart-legend">
+          <span><i class="ai-dot ai-dot-total"></i>Total inquiries</span>
+          <span><i class="ai-dot ai-dot-demo"></i>Demo requests</span>
+        </div>
+      </article>
+
+      <article class="card ai-card">
+        <div class="ai-card-header">
+          <div>
+            <span class="ai-eyebrow">Content coverage</span>
+            <h3>Experience inventory</h3>
+          </div>
+          <span class="ai-badge">{{ admin_dashboard.content_total }} live items</span>
+        </div>
+        <div class="ai-donut-wrap">
+          <div class="ai-donut" style="--donut: {{ admin_dashboard.content_gradient|safe }}">
+            <span>{{ admin_dashboard.content_total }}</span>
+          </div>
+          <div class="ai-mini-list">
+            {% for item in admin_dashboard.content_items %}
+              <p><i style="background: {{ item.color }}"></i><span>{{ item.label }}</span><strong>{{ item.count }}</strong></p>
+            {% endfor %}
+          </div>
+        </div>
+      </article>
+
+      <article class="card ai-card">
+        <div class="ai-card-header">
+          <div>
+            <span class="ai-eyebrow">Pipeline</span>
+            <h3>Event activity</h3>
+          </div>
+        </div>
+        <div class="ai-progress-list">
+          {% for item in admin_dashboard.event_pipeline %}
+            <div>
+              <p><span>{{ item.label }}</span><strong>{{ item.count }}</strong></p>
+              <div class="ai-progress-track"><span style="width: {{ item.percent }}%; background: {{ item.color }}"></span></div>
+            </div>
+          {% endfor %}
+        </div>
+        <div class="ai-upcoming-list">
+          {% for event in admin_dashboard.upcoming_events %}
+            <p><strong>{{ event.event_date|date:"M d" }}</strong><span>{{ event.title }}</span></p>
+          {% empty %}
+            <p><strong>No dates</strong><span>Add upcoming events to fill the pipeline.</span></p>
+          {% endfor %}
+        </div>
+      </article>
+
+      <article class="card ai-card">
+        <div class="ai-card-header">
+          <div>
+            <span class="ai-eyebrow">Customer operations</span>
+            <h3>Inquiry status</h3>
+          </div>
+        </div>
+        <div class="ai-progress-list">
+          {% for item in admin_dashboard.status_items %}
+            <div>
+              <p><span>{{ item.label }}</span><strong>{{ item.count }}</strong></p>
+              <div class="ai-progress-track"><span style="width: {{ item.percent }}%; background: {{ item.color }}"></span></div>
+            </div>
+          {% endfor %}
+        </div>
+      </article>
+
+      <article class="card ai-card">
+        <div class="ai-card-header">
+          <div>
+            <span class="ai-eyebrow">Demand mix</span>
+            <h3>Inquiry types</h3>
+          </div>
+        </div>
+        <div class="ai-progress-list">
+          {% for item in admin_dashboard.type_items %}
+            <div>
+              <p><span>{{ item.label }}</span><strong>{{ item.count }}</strong></p>
+              <div class="ai-progress-track"><span style="width: {{ item.percent }}%; background: {{ item.color }}"></span></div>
+            </div>
+          {% endfor %}
+        </div>
+      </article>
+
+      <article class="card ai-card ai-card-wide">
+        <div class="ai-card-header">
+          <div>
+            <span class="ai-eyebrow">Recent activity</span>
+            <h3>Latest customer inquiries</h3>
+          </div>
+          <a class="ai-text-link" href="{% url 'admin:website_contactinquiry_changelist' %}">View all</a>
+        </div>
+        <div class="ai-table-wrap">
+          <table class="table ai-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Company</th>
+                <th>Country</th>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Received</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for inquiry in admin_dashboard.recent_inquiries %}
+                <tr>
+                  <td><strong>{{ inquiry.full_name }}</strong><span>{{ inquiry.email }} · {{ inquiry.phone_number }}</span></td>
+                  <td><strong>{{ inquiry.company_name }}</strong><span>{{ inquiry.job_title }}</span></td>
+                  <td>{{ inquiry.country }}</td>
+                  <td>{{ inquiry.inquiry_type }}</td>
+                  <td><span class="ai-status ai-status-{{ inquiry.status }}">{{ inquiry.status|title }}</span></td>
+                  <td>{{ inquiry.created_at|date:"M d, H:i" }}</td>
+                </tr>
+              {% empty %}
+                <tr>
+                  <td colspan="6" class="ai-empty-cell">No customer inquiries yet. New form submissions will appear here.</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="card ai-card">
+        <div class="ai-card-header">
+          <div>
+            <span class="ai-eyebrow">Model health</span>
+            <h3>Managed records</h3>
+          </div>
+        </div>
+        <div class="ai-inventory-grid">
+          {% for item in admin_dashboard.inventory %}
+            <p><span>{{ item.label }}</span><strong>{{ item.count }}</strong></p>
+          {% endfor %}
+        </div>
+      </article>
+
+      <article class="card ai-card">
+        <div class="ai-card-header">
+          <div>
+            <span class="ai-eyebrow">Admin actions</span>
+            <h3>Recent changes</h3>
+          </div>
+        </div>
+        {% get_admin_log 5 as admin_log for_user user %}
+        <div class="ai-admin-log">
+          {% for entry in admin_log %}
+            <p>
+              {% if entry.is_addition %}<i class="fas fa-plus-circle"></i>{% elif entry.is_change %}<i class="fas fa-edit"></i>{% else %}<i class="fas fa-trash"></i>{% endif %}
+              <span>
+                {% if entry.is_deletion or not entry.get_admin_url %}
+                  {{ entry.object_repr }}
+                {% else %}
+                  <a href="{{ entry.get_admin_url }}">{{ entry.object_repr }}</a>
+                {% endif %}
+                <small>{{ entry.action_time|timesince }} ago</small>
+              </span>
+            </p>
+          {% empty %}
+            <p class="ai-empty-line">No admin activity recorded yet.</p>
+          {% endfor %}
+        </div>
+      </article>
+    </section>
+
+    <section class="card ai-card ai-management-card">
+      <div class="ai-card-header">
+        <div>
+          <span class="ai-eyebrow">Workspace</span>
+          <h3>Quick management</h3>
+        </div>
+      </div>
+      <div class="ai-management-grid">
+        {% for app in dashboard_list %}
+          {% for model in app.models %}
+            <div class="ai-model-link">
+              <span>{% if model.url %}<a href="{{ model.url }}">{{ model.name }}</a>{% else %}{{ model.name }}{% endif %}</span>
+              <div>
+                {% if model.add_url %}
+                  <a href="{{ model.add_url }}" class="btn btn-sm {{ jazzmin_ui.button_classes.success }} addlink">{% trans "Add" %}</a>
+                {% endif %}
+                {% if model.url %}
+                  <a href="{{ model.url }}" class="btn btn-sm {{ jazzmin_ui.button_classes.info }} changelink">{% trans "Manage" %}</a>
+                {% endif %}
+              </div>
+            </div>
+          {% endfor %}
+        {% endfor %}
+      </div>
+    </section>
+  </div>
+{% endblock %}

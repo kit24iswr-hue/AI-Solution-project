@@ -1,0 +1,31 @@
+{% extends "website/base.html" %}
+
+{% block title %}Services | {{ site_settings.brand_name }}{% endblock %}
+
+{% block content %}
+<section class="page-title premium-title">
+  <span class="eyebrow">{{ page.eyebrow }}</span>
+  <h1>{{ page.title }}</h1>
+  <p>{{ page.summary }}</p>
+</section>
+
+<section class="section service-detail-grid premium-list">
+  {% for service in services %}
+    <article class="service-detail premium-card">
+      {% if service.image %}<img src="{{ service.image.url }}" alt="{{ service.title }}">{% endif %}
+      <div>
+        <span class="icon-chip"><i data-lucide="{{ service.icon }}"></i></span>
+        <span class="eyebrow">{{ service.metric }} {{ service.metric_label }}</span>
+        <h2>{{ service.title }}</h2>
+        <p>{{ service.summary }}</p>
+        <ul class="check-list compact-list">
+          {% for deliverable in service.deliverables.all %}
+            <li><i data-lucide="check"></i>{{ deliverable.text }}</li>
+          {% endfor %}
+        </ul>
+        <a class="button primary" href="{% url 'website:service_detail' service.slug %}"><i data-lucide="arrow-right"></i>View details</a>
+      </div>
+    </article>
+  {% endfor %}
+</section>
+{% endblock %}

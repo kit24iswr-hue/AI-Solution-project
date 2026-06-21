@@ -1,0 +1,39 @@
+{% extends "website/base.html" %}
+
+{% block title %}{{ event.title }} | Events | {{ site_settings.brand_name }}{% endblock %}
+
+{% block content %}
+<section class="detail-hero">
+  <div class="detail-copy">
+    <a class="back-link" href="{% if event.status == 'past' %}{% url 'website:events_past' %}{% else %}{% url 'website:events_upcoming' %}{% endif %}">
+      <i data-lucide="arrow-left"></i>Events
+    </a>
+    <span class="eyebrow">{{ event.get_status_display }} event / {{ event.event_date|date:"F j, Y" }}</span>
+    <h1>{{ event.title }}</h1>
+    <p>{{ event.summary }}</p>
+    {% if event.status == "upcoming" %}
+      <a class="button primary" href="{% url 'website:contact' %}"><i data-lucide="calendar-check"></i>Register interest</a>
+    {% endif %}
+  </div>
+  {% if event.image %}<img src="{{ event.image.url }}" alt="{{ event.title }}">{% endif %}
+</section>
+
+<section class="section detail-layout">
+  <article class="detail-main">
+    <div class="detail-block">
+      <span class="eyebrow">Event details</span>
+      <h2>{{ event.location }}</h2>
+      <p>{{ event.summary }}</p>
+    </div>
+  </article>
+  <aside class="detail-aside">
+    <span class="eyebrow">Agenda</span>
+    <h2>Session focus</h2>
+    <ul class="check-list">
+      {% for item in event.agenda_items.all %}
+        <li><i data-lucide="check"></i>{{ item.text }}</li>
+      {% endfor %}
+    </ul>
+  </aside>
+</section>
+{% endblock %}

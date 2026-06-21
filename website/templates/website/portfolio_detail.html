@@ -1,0 +1,41 @@
+{% extends "website/base.html" %}
+
+{% block title %}{{ item.title }} | Portfolio | {{ site_settings.brand_name }}{% endblock %}
+
+{% block content %}
+<section class="detail-hero">
+  <div class="detail-copy">
+    <a class="back-link" href="{% url 'website:portfolio' %}"><i data-lucide="arrow-left"></i>Portfolio</a>
+    <span class="eyebrow">{{ item.category }}</span>
+    <h1>{{ item.title }}</h1>
+    <p>{{ item.summary }}</p>
+  </div>
+  {% if item.image %}<img src="{{ item.image.url }}" alt="{{ item.title }}">{% endif %}
+</section>
+
+<section class="section case-study-grid">
+  <article class="detail-block">
+    <span class="eyebrow">Challenge</span>
+    <h2>What needed to improve</h2>
+    <p>{{ item.challenge }}</p>
+  </article>
+  <article class="detail-block">
+    <span class="eyebrow">Solution</span>
+    <h2>How {{ site_settings.brand_name }} approached it</h2>
+    <p>{{ item.solution }}</p>
+  </article>
+  <article class="detail-block">
+    <span class="eyebrow">Impact</span>
+    <h2>Result of the prototype</h2>
+    <p>{{ item.impact }}</p>
+  </article>
+</section>
+
+<section class="section callout-band">
+  <div>
+    <span class="eyebrow">Project tools</span>
+    <h2>{% for tool in item.technologies.all %}{{ tool.name }}{% if not forloop.last %} / {% endif %}{% endfor %}</h2>
+  </div>
+  <a class="button dark" href="{% url 'website:contact' %}"><i data-lucide="send"></i>Start a project</a>
+</section>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "website/base.html" %}
+
+{% block title %}About | {{ site_settings.brand_name }}{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div>
+    <span class="eyebrow">{{ page.eyebrow }}</span>
+    <h1>{{ page.title }}</h1>
+    <p>{{ page.summary }}</p>
+  </div>
+  {% if page.image %}<img src="{{ page.image.url }}" alt="{{ page.title }}">{% endif %}
+</section>
+
+<section class="section split-section reverse">
+  <div class="visual-panel">
+    {% if page.secondary_image %}<img src="{{ page.secondary_image.url }}" alt="{{ page.body_title }}">{% endif %}
+  </div>
+  <div class="split-copy">
+    <span class="eyebrow">{{ page.body_eyebrow }}</span>
+    <h2>{{ page.body_title }}</h2>
+    <p>{{ page.body_summary }}</p>
+    <ul class="check-list">
+      {% for point in mission_points %}
+        <li><i data-lucide="{{ point.icon }}"></i>{{ point.summary }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-heading compact">
+    <span class="eyebrow">{{ page.secondary_eyebrow }}</span>
+    <h2>{{ page.secondary_title }}</h2>
+  </div>
+  <div class="feature-grid">
+    {% for value in about_values %}
+      <article class="feature-card premium-card">
+        <div class="icon-chip"><i data-lucide="{{ value.icon }}"></i></div>
+        <h3>{{ value.title }}</h3>
+        <p>{{ value.summary }}</p>
+      </article>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

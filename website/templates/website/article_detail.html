@@ -1,0 +1,46 @@
+{% extends "website/base.html" %}
+
+{% block title %}{{ article.title }} | Articles | {{ site_settings.brand_name }}{% endblock %}
+
+{% block content %}
+<article>
+  <section class="article-hero">
+    <div>
+      <a class="back-link" href="{% url 'website:articles' %}"><i data-lucide="arrow-left"></i>Articles</a>
+      <span class="eyebrow">{{ article.category }} / {{ article.published_at|date:"M j, Y" }} / {{ article.read_time }}</span>
+      <h1>{{ article.title }}</h1>
+      <p>{{ article.summary }}</p>
+    </div>
+    {% if article.image %}<img src="{{ article.image.url }}" alt="{{ article.title }}">{% endif %}
+  </section>
+
+  <section class="section article-body">
+    {% for section in article.sections.all %}
+      <div class="article-section">
+        <h2>{{ section.heading }}</h2>
+        <p>{{ section.body }}</p>
+      </div>
+    {% endfor %}
+  </section>
+</article>
+
+<section class="section related-band">
+  <div class="section-heading compact">
+    <span class="eyebrow">More thinking</span>
+    <h2>Related articles</h2>
+  </div>
+  <div class="article-grid">
+    {% for related in related_articles %}
+      <article class="article-card">
+        {% if related.image %}<img src="{{ related.image.url }}" alt="{{ related.title }}">{% endif %}
+        <div>
+          <span>{{ related.category }}</span>
+          <h2>{{ related.title }}</h2>
+          <p>{{ related.summary }}</p>
+          <a href="{% url 'website:article_detail' related.slug %}">Read article</a>
+        </div>
+      </article>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

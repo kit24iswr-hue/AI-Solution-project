@@ -1,0 +1,71 @@
+{% extends "website/base.html" %}
+
+{% block title %}Contact | {{ site_settings.brand_name }}{% endblock %}
+
+{% block content %}
+<section class="contact-hero">
+  <div>
+    <span class="eyebrow">{{ page.eyebrow }}</span>
+    <h1>{{ page.title }}</h1>
+    <p>{{ page.summary }}</p>
+    <div class="contact-points">
+      <span><i data-lucide="map-pin"></i>{{ site_settings.location }}</span>
+      <span><i data-lucide="mail"></i>{{ site_settings.contact_email }}</span>
+      <span><i data-lucide="clock-3"></i>{{ site_settings.opening_hours }}</span>
+    </div>
+  </div>
+  <form class="contact-form" method="post" novalidate>
+    {% csrf_token %}
+    <label>
+      {{ form.full_name.label }}
+      {{ form.full_name }}
+      {% for error in form.full_name.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+    </label>
+    <label>
+      {{ form.email.label }}
+      {{ form.email }}
+      {% for error in form.email.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+    </label>
+    <label>
+      {{ form.phone_number.label }}
+      {{ form.phone_number }}
+      {% for error in form.phone_number.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+    </label>
+    <label>
+      {{ form.company_name.label }}
+      {{ form.company_name }}
+      {% for error in form.company_name.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+    </label>
+    <label>
+      {{ form.country.label }}
+      {{ form.country }}
+      {% for error in form.country.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+    </label>
+    <label>
+      {{ form.job_title.label }}
+      {{ form.job_title }}
+      {% for error in form.job_title.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+    </label>
+    <label>
+      {{ form.inquiry_type.label }}
+      {{ form.inquiry_type }}
+      {% for error in form.inquiry_type.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+    </label>
+    <label class="form-span-2">
+      {{ form.job_details.label }}
+      {{ form.job_details }}
+      {% for error in form.job_details.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+    </label>
+    <button class="button primary" type="submit"><i data-lucide="send"></i>Submit Inquiry</button>
+    {% if success_message %}
+      <p class="form-status form-span-2">{{ success_message }}</p>
+    {% elif save_error %}
+      <p class="form-status error form-span-2">{{ save_error }}</p>
+    {% elif form.errors %}
+      <p class="form-status error form-span-2">Please check the highlighted fields.</p>
+    {% else %}
+      <p class="form-status form-span-2"></p>
+    {% endif %}
+  </form>
+</section>
+{% endblock %}

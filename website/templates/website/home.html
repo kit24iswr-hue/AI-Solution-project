@@ -1,0 +1,104 @@
+{% extends "website/base.html" %}
+
+{% block title %}{{ site_settings.brand_name }} | {{ site_settings.brand_tagline }}{% endblock %}
+
+{% block content %}
+<section class="hero hero-home" style="--hero-image: url('{% if site_settings.home_hero_image %}{{ site_settings.home_hero_image.url }}{% endif %}')">
+  <div class="hero-media" role="img" aria-label="Team working with AI workplace technology"></div>
+  <div class="hero-shade"></div>
+  <div class="hero-content">
+    <span class="eyebrow">{{ site_settings.home_eyebrow }}</span>
+    <h1>{{ site_settings.home_title }}</h1>
+    <p>{{ site_settings.home_summary }}</p>
+    <div class="hero-actions">
+      <a class="button primary" href="{% url 'website:contact' %}"><i data-lucide="calendar-check"></i>Schedule Demo</a>
+      <a class="button secondary" href="{% url 'website:services' %}"><i data-lucide="sparkles"></i>Explore Services</a>
+    </div>
+    <div class="hero-badges">
+      <span class="hero-badge"><i data-lucide="shield-check"></i>Enterprise Ready</span>
+      <span class="hero-badge"><i data-lucide="zap"></i>Real-time AI</span>
+      <span class="hero-badge"><i data-lucide="globe"></i>Global Scale</span>
+    </div>
+  </div>
+</section>
+
+<!-- AI ticker strip -->
+<div class="ai-ticker-wrap" aria-hidden="true">
+  <div class="ai-ticker">
+    <span><i data-lucide="cpu"></i> Machine Learning</span>
+    <span><i data-lucide="brain"></i> Neural Networks</span>
+    <span><i data-lucide="bar-chart-2"></i> Predictive Analytics</span>
+    <span><i data-lucide="bot"></i> AI Automation</span>
+    <span><i data-lucide="layers"></i> Deep Learning</span>
+    <span><i data-lucide="activity"></i> Real-time Processing</span>
+    <span><i data-lucide="database"></i> Data Intelligence</span>
+    <span><i data-lucide="shield"></i> Secure AI</span>
+    <!-- duplicate for seamless loop -->
+    <span><i data-lucide="cpu"></i> Machine Learning</span>
+    <span><i data-lucide="brain"></i> Neural Networks</span>
+    <span><i data-lucide="bar-chart-2"></i> Predictive Analytics</span>
+    <span><i data-lucide="bot"></i> AI Automation</span>
+    <span><i data-lucide="layers"></i> Deep Learning</span>
+    <span><i data-lucide="activity"></i> Real-time Processing</span>
+    <span><i data-lucide="database"></i> Data Intelligence</span>
+    <span><i data-lucide="shield"></i> Secure AI</span>
+  </div>
+</div>
+
+<section class="section feature-strip">
+  <div class="section-heading">
+    <span class="eyebrow">{{ site_settings.home_feature_eyebrow }}</span>
+    <h2 class="premium-title">{{ site_settings.home_feature_title }}</h2>
+  </div>
+  <div class="feature-grid">
+    {% for feature in home_features %}
+      <article class="feature-card premium-card">
+        <div class="icon-chip"><i data-lucide="{{ feature.icon }}"></i></div>
+        <h3>{{ feature.title }}</h3>
+        <p>{{ feature.summary }}</p>
+      </article>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section split-section">
+  <div class="split-copy">
+    <span class="eyebrow">{{ site_settings.operating_eyebrow }}</span>
+    <h2>{{ site_settings.operating_title }}</h2>
+    <p>{{ site_settings.operating_summary }}</p>
+    <div class="metric-row">
+      {% for metric in home_metrics %}
+        <div><strong>{{ metric.value }}</strong><span>{{ metric.label }}</span></div>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="visual-panel">
+    {% if site_settings.operating_image %}<img src="{{ site_settings.operating_image.url }}" alt="{{ site_settings.operating_title }}">{% endif %}
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-heading compact">
+    <span class="eyebrow">{{ site_settings.home_services_eyebrow }}</span>
+    <h2>{{ site_settings.home_services_title }}</h2>
+  </div>
+  <div class="service-grid">
+    {% for service in services %}
+      <article class="service-card premium-card">
+        <div class="icon-chip"><i data-lucide="{{ service.icon }}"></i></div>
+        <h3>{{ service.title }}</h3>
+        <p>{{ service.summary }}</p>
+        <a href="{% url 'website:service_detail' service.slug %}">View service →</a>
+      </article>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section callout-band">
+  <div>
+    <span class="eyebrow">{{ site_settings.cta_eyebrow }}</span>
+    <h2>{{ site_settings.cta_title }}</h2>
+  </div>
+  <a class="button dark" href="{% url 'website:contact' %}"><i data-lucide="send"></i>{{ site_settings.cta_button_text }}</a>
+</section>
+{% endblock %}

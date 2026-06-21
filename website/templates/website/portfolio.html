@@ -1,0 +1,25 @@
+{% extends "website/base.html" %}
+
+{% block title %}Portfolio | {{ site_settings.brand_name }}{% endblock %}
+
+{% block content %}
+<section class="page-title premium-title">
+  <span class="eyebrow">{{ page.eyebrow }}</span>
+  <h1>{{ page.title }}</h1>
+  <p>{{ page.summary }}</p>
+</section>
+
+<section class="section portfolio-grid">
+  {% for item in portfolio_items %}
+    <article class="portfolio-card premium-card">
+      {% if item.image %}<img src="{{ item.image.url }}" alt="{{ item.title }}">{% endif %}
+      <div>
+        <span>{{ item.category }}</span>
+        <h2>{{ item.title }}</h2>
+        <p>{{ item.summary }}</p>
+        <a class="inline-link" href="{% url 'website:portfolio_detail' item.slug %}">View case study <i data-lucide="arrow-right"></i></a>
+      </div>
+    </article>
+  {% endfor %}
+</section>
+{% endblock %}

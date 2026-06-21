@@ -1,0 +1,25 @@
+{% extends "website/base.html" %}
+
+{% block title %}Articles | {{ site_settings.brand_name }}{% endblock %}
+
+{% block content %}
+<section class="page-title premium-title">
+  <span class="eyebrow">{{ page.eyebrow }}</span>
+  <h1>{{ page.title }}</h1>
+  <p>{{ page.summary }}</p>
+</section>
+
+<section class="section article-grid">
+  {% for article in articles %}
+    <article class="article-card premium-card">
+      {% if article.image %}<img src="{{ article.image.url }}" alt="{{ article.title }}">{% endif %}
+      <div>
+        <span>{{ article.category }} / {{ article.published_at|date:"M j, Y" }} / {{ article.read_time }}</span>
+        <h2>{{ article.title }}</h2>
+        <p>{{ article.summary }}</p>
+        <a class="inline-link" href="{% url 'website:article_detail' article.slug %}">Read article <i data-lucide="arrow-right"></i></a>
+      </div>
+    </article>
+  {% endfor %}
+</section>
+{% endblock %}

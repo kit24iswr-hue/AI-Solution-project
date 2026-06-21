@@ -1,0 +1,440 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}{{ site_settings.brand_name }}{% endblock %}</title>
+  <link rel="icon" href="{% static 'img/logo-mark.svg' %}" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+  <!-- AI ambient background -->
+  <div class="ai-background" aria-hidden="true">
+    <div class="ai-orb ai-orb-1"></div>
+    <div class="ai-orb ai-orb-2"></div>
+    <div class="ai-orb ai-orb-3"></div>
+  </div>
+
+  <header class="site-header" data-header>
+    <div class="header-inner">
+      <a class="brand" href="{% url 'website:home' %}" aria-label="{{ site_settings.brand_name }} home">
+        <img class="brand-mark" src="{% static 'img/logo-mark.svg' %}" alt="" width="42" height="42">
+        <span class="brand-copy"><strong>{{ site_settings.brand_name }}</strong><small>{{ site_settings.brand_tagline }}</small></span>
+      </a>
+      <button class="nav-toggle" type="button" aria-label="Open navigation" data-nav-toggle>
+        <i data-lucide="menu"></i>
+      </button>
+      <nav class="site-nav" data-nav>
+        <a class="{% if active_page == 'home' %}active{% endif %}" href="{% url 'website:home' %}">Home</a>
+        <a class="{% if active_page == 'about' %}active{% endif %}" href="{% url 'website:about' %}">About</a>
+        <a class="{% if active_page == 'services' %}active{% endif %}" href="{% url 'website:services' %}">Services</a>
+        <a class="{% if active_page == 'portfolio' %}active{% endif %}" href="{% url 'website:portfolio' %}">Portfolio</a>
+        <a class="{% if active_page == 'events' %}active{% endif %}" href="{% url 'website:events' %}">Events</a>
+        <a class="{% if active_page == 'testimonials' %}active{% endif %}" href="{% url 'website:testimonials' %}">Testimonials</a>
+        <a class="{% if active_page == 'articles' %}active{% endif %}" href="{% url 'website:articles' %}">Articles</a>
+        <a class="nav-admin {% if active_page == 'contact' %}active{% endif %}" href="{% url 'website:contact' %}">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div class="footer-company">
+        <a class="brand footer-brand" href="{% url 'website:home' %}">
+          <img class="brand-mark" src="{% static 'img/logo-mark.svg' %}" alt="" width="42" height="42">
+          <span class="brand-copy"><strong>{{ site_settings.brand_name }}</strong><small>{{ site_settings.location }}</small></span>
+        </a>
+        <p>{{ site_settings.footer_summary }}</p>
+      </div>
+      <div class="footer-column">
+        <strong>Company</strong>
+        <a href="{% url 'website:about' %}">About</a>
+        <a href="{% url 'website:testimonials' %}">Testimonials</a>
+        <a href="{% url 'website:contact' %}">Contact</a>
+      </div>
+      <div class="footer-column">
+        <strong>Solutions</strong>
+        <a href="{% url 'website:services' %}">Services</a>
+        <a href="{% url 'website:portfolio' %}">Portfolio</a>
+        <a href="{% url 'website:articles' %}">Articles</a>
+      </div>
+      <div class="footer-column">
+        <strong>Connect</strong>
+        <span>{{ site_settings.contact_email }}</span>
+        <span>{{ site_settings.opening_hours }}</span>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>{{ site_settings.brand_name }} client review website</span>
+      <a href="{% url 'website:events' %}">Upcoming events</a>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="{% static 'js/main.js' %}"></script>
+
+  {# ── Chatbot Widget ── #}
+  <div id="cb-wrap">
+    {# Toggle button #}
+    <button id="cb-btn" aria-label="Open AI chat assistant" title="Ask our AI assistant">
+      <svg id="cb-icon-open" xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
+      <svg id="cb-icon-close" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:none"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+
+    {# Chat panel #}
+    <div id="cb-panel" aria-live="polite" style="display:none">
+      <div id="cb-header">
+        <div id="cb-header-info">
+          <div id="cb-avatar">AI</div>
+          <div>
+            <div id="cb-name">{{ site_settings.brand_name }} Assistant</div>
+            <div id="cb-status"><span id="cb-dot"></span>Online</div>
+          </div>
+        </div>
+        <button id="cb-close-btn" aria-label="Close chat">&#x2715;</button>
+      </div>
+
+      <div id="cb-messages">
+        <div class="cb-msg cb-bot">
+          <div class="cb-bubble">Hi! I'm the AI assistant for <strong>{{ site_settings.brand_name }}</strong>. Ask me anything about our services, portfolio, events, articles, or how to get in touch!</div>
+        </div>
+      </div>
+
+      <div id="cb-suggestions">
+        <button class="cb-suggestion" data-q="What services do you offer?">What services do you offer?</button>
+        <button class="cb-suggestion" data-q="How can I contact you?">How can I contact you?</button>
+        <button class="cb-suggestion" data-q="Tell me about your portfolio">Tell me about your portfolio</button>
+      </div>
+
+      <form id="cb-form" autocomplete="off">
+        {% csrf_token %}
+        <input id="cb-input" type="text" placeholder="Ask a question…" maxlength="1000" required autocomplete="off">
+        <button type="submit" id="cb-send" aria-label="Send message">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <style>
+    /* ── Chatbot Widget Styles ── */
+    #cb-wrap {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 9999;
+      font-family: "Inter", Arial, sans-serif;
+    }
+
+    /* Toggle button */
+    #cb-btn {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      border: none;
+      background: linear-gradient(135deg, #00c8c2, #009990);
+      color: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(0,200,194,0.5);
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin-left: auto;
+    }
+    #cb-btn:hover {
+      transform: scale(1.08);
+      box-shadow: 0 6px 28px rgba(0,200,194,0.7);
+    }
+
+    /* Chat panel */
+    #cb-panel {
+      position: absolute;
+      bottom: 70px;
+      right: 0;
+      width: 360px;
+      max-height: 520px;
+      background: #0e1c1a;
+      border: 1px solid #1e3532;
+      border-radius: 16px;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Header */
+    #cb-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+      background: linear-gradient(135deg, #0a1a18, #0e2420);
+      border-bottom: 1px solid #1e3532;
+      flex-shrink: 0;
+    }
+    #cb-header-info { display: flex; align-items: center; gap: 10px; }
+    #cb-avatar {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #00c8c2, #009990);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 0.75rem; color: #fff;
+      flex-shrink: 0;
+    }
+    #cb-name { font-weight: 600; font-size: 0.9rem; color: #d8ecea; }
+    #cb-status { font-size: 0.73rem; color: #7a9e99; display: flex; align-items: center; gap: 5px; margin-top: 2px; }
+    #cb-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #00c8c2;
+      box-shadow: 0 0 6px #00c8c2;
+      display: inline-block;
+    }
+    #cb-close-btn {
+      background: none; border: none;
+      color: #7a9e99; cursor: pointer;
+      font-size: 1rem; padding: 4px 6px;
+      border-radius: 6px;
+      transition: color 0.15s, background 0.15s;
+    }
+    #cb-close-btn:hover { color: #d8ecea; background: rgba(255,255,255,0.06); }
+
+    /* Messages area */
+    #cb-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 14px 14px 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      scroll-behavior: smooth;
+    }
+    #cb-messages::-webkit-scrollbar { width: 4px; }
+    #cb-messages::-webkit-scrollbar-track { background: transparent; }
+    #cb-messages::-webkit-scrollbar-thumb { background: #1e3532; border-radius: 4px; }
+
+    /* Message bubbles */
+    .cb-msg { display: flex; max-width: 85%; }
+    .cb-msg.cb-bot { align-self: flex-start; }
+    .cb-msg.cb-user { align-self: flex-end; flex-direction: row-reverse; }
+    .cb-bubble {
+      padding: 10px 14px;
+      border-radius: 14px;
+      font-size: 0.845rem;
+      line-height: 1.55;
+    }
+    .cb-bot .cb-bubble {
+      background: #122420;
+      color: #d8ecea;
+      border-bottom-left-radius: 4px;
+      border: 1px solid #1e3532;
+    }
+    .cb-user .cb-bubble {
+      background: linear-gradient(135deg, #00c8c2, #009990);
+      color: #fff;
+      border-bottom-right-radius: 4px;
+    }
+    .cb-error .cb-bubble {
+      background: rgba(255,112,96,0.12);
+      color: #ff9080;
+      border-color: rgba(255,112,96,0.2);
+    }
+
+    /* Typing indicator */
+    .cb-typing .cb-bubble {
+      display: flex; align-items: center; gap: 5px;
+      padding: 12px 16px;
+    }
+    .cb-typing .cb-dot-1, .cb-typing .cb-dot-2, .cb-typing .cb-dot-3 {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #00c8c2; opacity: 0.5;
+      animation: cb-bounce 1.2s infinite;
+    }
+    .cb-typing .cb-dot-2 { animation-delay: 0.2s; }
+    .cb-typing .cb-dot-3 { animation-delay: 0.4s; }
+    @keyframes cb-bounce {
+      0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
+      40% { transform: translateY(-6px); opacity: 1; }
+    }
+
+    /* Quick suggestions */
+    #cb-suggestions {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      padding: 0 14px 10px;
+      flex-shrink: 0;
+    }
+    .cb-suggestion {
+      background: none;
+      border: 1px solid #1e3532;
+      color: #7a9e99;
+      border-radius: 20px;
+      padding: 5px 12px;
+      font-size: 0.76rem;
+      cursor: pointer;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .cb-suggestion:hover {
+      border-color: #00c8c2;
+      color: #00c8c2;
+      background: rgba(0,200,194,0.06);
+    }
+
+    /* Input form */
+    #cb-form {
+      display: flex;
+      gap: 8px;
+      padding: 10px 12px;
+      border-top: 1px solid #1e3532;
+      background: #0a1614;
+      flex-shrink: 0;
+    }
+    #cb-input {
+      flex: 1;
+      background: #122420;
+      border: 1px solid #1e3532;
+      border-radius: 10px;
+      color: #d8ecea;
+      padding: 9px 12px;
+      font-size: 0.845rem;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    #cb-input:focus { border-color: #00c8c2; }
+    #cb-input::placeholder { color: #4a7570; }
+    #cb-send {
+      background: linear-gradient(135deg, #00c8c2, #009990);
+      border: none;
+      border-radius: 10px;
+      color: #fff;
+      padding: 9px 12px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: opacity 0.15s;
+      flex-shrink: 0;
+    }
+    #cb-send:hover { opacity: 0.85; }
+    #cb-send:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    @media (max-width: 420px) {
+      #cb-panel { width: calc(100vw - 32px); right: 0; }
+    }
+  </style>
+
+  <script>
+  (function () {
+    const btn      = document.getElementById('cb-btn');
+    const panel    = document.getElementById('cb-panel');
+    const closeBtn = document.getElementById('cb-close-btn');
+    const form     = document.getElementById('cb-form');
+    const input    = document.getElementById('cb-input');
+    const messages = document.getElementById('cb-messages');
+    const iconOpen  = document.getElementById('cb-icon-open');
+    const iconClose = document.getElementById('cb-icon-close');
+    const suggs    = document.getElementById('cb-suggestions');
+    const ENDPOINT = '{% url "website:chatbot_api" %}';
+
+    function getCsrf() {
+      return document.querySelector('[name=csrfmiddlewaretoken]').value;
+    }
+
+    function openPanel() {
+      panel.style.display = 'flex';
+      panel.style.flexDirection = 'column';
+      iconOpen.style.display  = 'none';
+      iconClose.style.display = 'block';
+      input.focus();
+    }
+
+    function closePanel() {
+      panel.style.display = 'none';
+      iconOpen.style.display  = 'block';
+      iconClose.style.display = 'none';
+    }
+
+    btn.addEventListener('click', function () {
+      panel.style.display === 'none' ? openPanel() : closePanel();
+    });
+    closeBtn.addEventListener('click', closePanel);
+
+    function addMsg(text, role) {
+      const wrap = document.createElement('div');
+      wrap.className = 'cb-msg cb-' + role;
+      const bubble = document.createElement('div');
+      bubble.className = 'cb-bubble';
+      bubble.innerHTML = text.replace(/\n/g, '<br>');
+      wrap.appendChild(bubble);
+      messages.appendChild(wrap);
+      messages.scrollTop = messages.scrollHeight;
+      return wrap;
+    }
+
+    function addTyping() {
+      const wrap = document.createElement('div');
+      wrap.className = 'cb-msg cb-bot cb-typing';
+      wrap.innerHTML = '<div class="cb-bubble"><span class="cb-dot-1"></span><span class="cb-dot-2"></span><span class="cb-dot-3"></span></div>';
+      messages.appendChild(wrap);
+      messages.scrollTop = messages.scrollHeight;
+      return wrap;
+    }
+
+    async function sendMessage(text) {
+      if (!text) return;
+
+      // Hide suggestions after first message
+      if (suggs) suggs.style.display = 'none';
+
+      addMsg(text, 'user');
+      input.value = '';
+      document.getElementById('cb-send').disabled = true;
+
+      const typing = addTyping();
+
+      try {
+        const res = await fetch(ENDPOINT, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCsrf(),
+          },
+          body: JSON.stringify({ message: text }),
+        });
+        const data = await res.json();
+        typing.remove();
+        if (data.reply) {
+          addMsg(data.reply, 'bot');
+        } else {
+          addMsg(data.error || 'Something went wrong. Please try again.', 'error');
+        }
+      } catch (err) {
+        typing.remove();
+        addMsg('Network error — please check your connection.', 'error');
+      } finally {
+        document.getElementById('cb-send').disabled = false;
+        input.focus();
+      }
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      sendMessage(input.value.trim());
+    });
+
+    // Quick suggestion buttons
+    document.querySelectorAll('.cb-suggestion').forEach(function (s) {
+      s.addEventListener('click', function () {
+        sendMessage(this.dataset.q);
+      });
+    });
+  })();
+  </script>
+</body>
+</html>

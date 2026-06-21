@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel | AI-Solution</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body class="admin-body">
+  <main class="admin-shell">
+    <aside class="admin-sidebar">
+      <a class="brand" href="index.html"><span class="brand-mark">AI</span><span>AI-Solution</span></a>
+      <nav>
+        <a class="active" href="#dashboard"><i data-lucide="layout-dashboard"></i>Dashboard</a>
+        <a href="#inquiries"><i data-lucide="inbox"></i>Inquiries</a>
+        <a href="#events"><i data-lucide="calendar-days"></i>Events</a>
+        <a href="index.html"><i data-lucide="globe"></i>Website</a>
+      </nav>
+    </aside>
+
+    <section class="admin-login" data-login-panel>
+      <form class="login-card" data-login-form>
+        <span class="eyebrow">Protected admin area</span>
+        <h1>Admin login</h1>
+        <label>Email<input type="email" placeholder="admin@ai-solution.example" required></label>
+        <label>Password<input type="password" placeholder="Enter password" required></label>
+        <button class="button primary" type="submit"><i data-lucide="log-in"></i>Login</button>
+      </form>
+    </section>
+
+    <section class="admin-content" data-admin-content hidden>
+      <div class="admin-topbar">
+        <div>
+          <span class="eyebrow">Analytics dashboard</span>
+          <h1>Customer engagement overview</h1>
+        </div>
+        <button class="icon-button" type="button" aria-label="Logout" title="Logout" data-logout><i data-lucide="log-out"></i></button>
+      </div>
+
+      <div class="stat-grid">
+        <article class="stat-card"><span>Total inquiries</span><strong>248</strong><small>+18 this week</small></article>
+        <article class="stat-card"><span>Demo requests</span><strong>63</strong><small>25% conversion</small></article>
+        <article class="stat-card"><span>Event signups</span><strong>119</strong><small>3 active events</small></article>
+        <article class="stat-card"><span>Satisfaction</span><strong>92%</strong><small>Latest feedback score</small></article>
+      </div>
+
+      <div class="admin-grid">
+        <article class="dashboard-panel">
+          <div class="panel-head"><h2>Inquiry trend</h2><span>Last 6 months</span></div>
+          <div class="bar-chart" aria-label="Inquiry trend chart">
+            <span style="height:42%"></span><span style="height:55%"></span><span style="height:61%"></span><span style="height:70%"></span><span style="height:82%"></span><span style="height:94%"></span>
+          </div>
+        </article>
+        <article class="dashboard-panel">
+          <div class="panel-head"><h2>Future success prediction</h2><span>Prototype metric</span></div>
+          <div class="prediction-meter"><strong>87%</strong><span></span></div>
+          <p>Based on demo interest, inquiry growth, event attendance, and satisfaction signals.</p>
+        </article>
+      </div>
+
+      <div class="admin-grid">
+        <article class="dashboard-panel" id="inquiries">
+          <div class="panel-head"><h2>Recent inquiries</h2><button class="text-button" type="button">Export</button></div>
+          <table>
+            <thead><tr><th>Name</th><th>Type</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>Maya Clark</td><td>Schedule demo</td><td><span class="status new">New</span></td></tr>
+              <tr><td>Jordan Lee</td><td>Partnership</td><td><span class="status open">Open</span></td></tr>
+              <tr><td>Priya Shah</td><td>Join event</td><td><span class="status done">Done</span></td></tr>
+            </tbody>
+          </table>
+        </article>
+        <article class="dashboard-panel" id="events">
+          <div class="panel-head"><h2>Event timeline</h2><button class="text-button" type="button">Add</button></div>
+          <div class="mini-timeline">
+            <p><strong>Jun 2026</strong><span>AI Workflow Discovery</span></p>
+            <p><strong>Jul 2026</strong><span>Prototype Review Day</span></p>
+            <p><strong>Aug 2026</strong><span>Digital Experience Launch</span></p>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

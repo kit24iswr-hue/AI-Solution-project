@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact | AI-Solution</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+  <header class="site-header" data-header>
+    <a class="brand" href="index.html"><span class="brand-mark">AI</span><span>AI-Solution</span></a>
+    <button class="nav-toggle" type="button" aria-label="Open navigation" data-nav-toggle><i data-lucide="menu"></i></button>
+    <nav class="site-nav" data-nav>
+      <a href="index.html">Home</a><a href="about.html">About</a><a href="services.html">Services</a><a href="portfolio.html">Portfolio</a><a href="events.html">Events</a><a href="testimonials.html">Testimonials</a><a href="articles.html">Articles</a><a class="nav-admin active" href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="contact-hero">
+      <div>
+        <span class="eyebrow">Contact us</span>
+        <h1>Send an inquiry or schedule a product demo.</h1>
+        <p>Tell the team what you need and AI-Solution will help you choose the right next step.</p>
+        <div class="contact-points">
+          <span><i data-lucide="map-pin"></i>Sunderland, United Kingdom</span>
+          <span><i data-lucide="mail"></i>hello@ai-solution.example</span>
+          <span><i data-lucide="clock-3"></i>Mon to Fri, 9:00 to 17:00</span>
+        </div>
+      </div>
+      <form class="contact-form" data-contact-form>
+        <label>Full name<input type="text" name="name" placeholder="Enter your name" required></label>
+        <label>Email address<input type="email" name="email" placeholder="Enter your email" required></label>
+        <label>Phone number<input type="tel" name="phone" placeholder="Enter your phone number" required></label>
+        <label>Company name<input type="text" name="company" placeholder="Enter your company name" required></label>
+        <label>Country<input type="text" name="country" placeholder="Enter your country" required></label>
+        <label>Job title<input type="text" name="job_title" placeholder="Enter your job title" required></label>
+        <label>Inquiry type<select name="type" required><option value="">Select option</option><option>General inquiry</option><option>Schedule demo</option><option>Join event</option><option>Partnership</option></select></label>
+        <label class="form-span-2">Job details<textarea name="job_details" rows="5" placeholder="Describe the job requirements" required></textarea></label>
+        <button class="button primary form-span-2" type="submit"><i data-lucide="send"></i>Submit Inquiry</button>
+        <p class="form-status form-span-2" data-form-status></p>
+      </form>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div><a class="brand footer-brand" href="index.html"><span class="brand-mark">AI</span><span>AI-Solution</span></a><p>AI-powered digital employee experience solutions for global teams.</p></div>
+    <div class="footer-links"><a href="services.html">Services</a><a href="events.html">Events</a><a href="articles.html">Articles</a><a href="contact.html">Contact</a></div>
+  </footer>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

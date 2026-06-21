@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 96" role="img" aria-labelledby="title desc">
+  <title id="title">AI-Solution logo</title>
+  <desc id="desc">AI-Solution wordmark with a connected AI logo mark.</desc>
+  <defs>
+    <linearGradient id="mark-bg" x1="16" y1="12" x2="82" y2="86" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#087f7a"/>
+      <stop offset="0.58" stop-color="#055a57"/>
+      <stop offset="1" stop-color="#17211f"/>
+    </linearGradient>
+    <linearGradient id="mark-line" x1="25" y1="28" x2="76" y2="68" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f4b740"/>
+      <stop offset="0.52" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#e7634f"/>
+    </linearGradient>
+  </defs>
+  <rect x="8" y="8" width="80" height="80" rx="21" fill="url(#mark-bg)"/>
+  <path d="M24 64 39 30l14 34m-23-9h17" fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M63 30v34" fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round"/>
+  <path d="M26 67c14-21 32-31 51-35" fill="none" stroke="url(#mark-line)" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="26" cy="67" r="4.5" fill="#f4b740"/>
+  <circle cx="52" cy="47" r="4.5" fill="#ffffff"/>
+  <circle cx="77" cy="32" r="4.5" fill="#e7634f"/>
+  <text x="110" y="47" fill="#17211f" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="800" letter-spacing="0">AI-Solution</text>
+  <text x="112" y="70" fill="#66736f" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="700" letter-spacing="0">Digital workplace systems</text>
+</svg>
